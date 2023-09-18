@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+calc-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+calc-display {
+    color: white;
+}
