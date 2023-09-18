@@ -41,6 +41,19 @@ body {
     flex-grow: 1;
 }
 
+.calc-element:hover {
+    transition: 200ms;
+    background-color: rgb(200,200,200);
+    color: black;
+}
+
+.calc-element:active {
+    transition: 200ms;
+    background-color: whitesmoke;
+    color: black;
+}
+
+
 .calc-display {
     width: 100%;
     text-align: end;
