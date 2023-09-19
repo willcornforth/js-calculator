@@ -57,6 +57,8 @@ body {
 .calc-display {
     width: 100%;
     text-align: end;
+    padding: 25px;
+    flex-grow: 1;
 }
 
 .zero {

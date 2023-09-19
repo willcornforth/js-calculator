@@ -31,8 +31,11 @@ function handlePressedNumber(numPressed)
 
 function handlePressedOperator(opPressed)
 {
-    sum.hasSelectedOperator = true;
-    sum.operator = opPressed;
+    if (Number.isInteger(sum.firstNumber) && sum.firstNumber != undefined)
+    {
+        sum.hasSelectedOperator = true;
+        sum.operator = opPressed;
+    }
 }
 
 function executeSum()
@@ -58,11 +61,10 @@ function executeSum()
     postSum();
 }
 
-function postSum(result)
+function postSum()
 {
     // Push result as next first number to use.
-
-    sum.firstNumber = result;
+    sum.firstNumber = sum.result;
     sum.secondNumber = 0;
     sum.operator = 0;
     sum.result = 0;
@@ -76,6 +78,9 @@ function clearSum()
     sum.operator = 0;
     sum.result = 0;
     sum.hasSelectedOperator = false;
+
+    const dispOutput = document.querySelector("#disp-output");
+    dispOutput.textContent = "CLR";
 }
 
 // Global click listener.
