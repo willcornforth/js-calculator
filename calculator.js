@@ -31,7 +31,7 @@ function handlePressedNumber(numPressed)
 
 function handlePressedOperator(opPressed)
 {
-    if (Number.isInteger(sum.firstNumber) && sum.firstNumber != undefined)
+    if (Number.isFinite(sum.firstNumber) && sum.firstNumber != undefined)
     {
         sum.hasSelectedOperator = true;
         sum.operator = opPressed;
@@ -53,6 +53,9 @@ function executeSum()
             break;
         case '-':
             sum.result = sum.firstNumber - sum.secondNumber;
+            break;
+        case '%':
+            sum.result = sum.firstNumber / 100;
             break;
     }
 
@@ -105,13 +108,14 @@ document.addEventListener("click", function(event)
         "btn-plus": '+',
         "btn-minus": '-',
         "btn-mul": '*',
-        "btn-div": '/',        
+        "btn-div": '/',
+        "btn-percent": '%',        
     }
 
     if (event.target.id == "btn-sum" &&
         sum.hasSelectedOperator &&
-        Number.isInteger(sum.firstNumber) &&
-        Number.isInteger(sum.secondNumber)
+        Number.isFinite(sum.firstNumber) &&
+        Number.isFinite(sum.secondNumber)
         )
     {
         executeSum();
