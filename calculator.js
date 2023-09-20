@@ -40,28 +40,32 @@ function handlePressedOperator(opPressed)
 
 function executeSum()
 {
-    switch(sum.operator)
+    if (sum.hasSelectedOperator &&
+    Number.isFinite(sum.firstNumber) &&
+    Number.isFinite(sum.secondNumber))
     {
-        case '/':
-            sum.result = sum.firstNumber / sum.secondNumber;
-            break;
-        case '*':
-            sum.result = sum.firstNumber * sum.secondNumber;
-            break;
-        case '+':
-            sum.result = sum.firstNumber + sum.secondNumber;
-            break;
-        case '-':
-            sum.result = sum.firstNumber - sum.secondNumber;
-            break;
-        case '%':
-            sum.result = sum.firstNumber / 100;
-            break;
-    }
+        switch(sum.operator)
+        {
+            case '/':
+                sum.result = sum.firstNumber / sum.secondNumber;
+                break;
+            case '*':
+                sum.result = sum.firstNumber * sum.secondNumber;
+                break;
+            case '+':
+                sum.result = sum.firstNumber + sum.secondNumber;
+                break;
+            case '-':
+                sum.result = sum.firstNumber - sum.secondNumber;
+                break;
+            case '%':
+                sum.result = sum.firstNumber / 100;
+                break;
+        }
 
-   
-    dispOutput.textContent = sum.result;
-    postSum();
+        dispOutput.textContent = sum.result;
+        postSum();
+    }
 }
 
 function postSum()
@@ -101,6 +105,9 @@ function handleMiscOperators(targetId)
         else
             return input.toString().substring(0, input.toString().length - 1);
     }
+    const doBackspace = (input) => {
+        return parseFloat(input.toString().substring(0, input.toString().length - 1));
+    }
 
     if (!sum.hasSelectedOperator)
     {
@@ -111,6 +118,10 @@ function handleMiscOperators(targetId)
         else if (targetId == "btn-dec") 
         {
             sum.firstNumber = appendDecimal(sum.firstNumber);
+        }
+        else if (targetId == "btn-backspace")
+        {
+            sum.firstNumber = doBackspace(sum.firstNumber);
         }
         dispOutput.textContent = sum.firstNumber;
     }
@@ -124,7 +135,10 @@ function handleMiscOperators(targetId)
         {
             sum.secondNumber = appendDecimal(sum.secondNumber);
         }
-
+        else if (targetId == "btn-backspace")
+        {
+            sum.secondNumber = doBackspace(sum.secondNumber);
+        }
         dispOutput.textContent = sum.secondNumber;
     }
 }
@@ -138,7 +152,7 @@ function postPress()
 }
 
 // Global click listener.
-document.addEventListener("click", function(event)
+document.addEventListener("click", (event) =>
 {
     console.log(event.target.id);
 
@@ -163,15 +177,11 @@ document.addEventListener("click", function(event)
         "btn-percent": '%',        
     }
 
-    if (event.target.id == "btn-sum" &&
-        sum.hasSelectedOperator &&
-        Number.isFinite(sum.firstNumber) &&
-        Number.isFinite(sum.secondNumber)
-        )
+    if (event.target.id == "btn-sum")
     {
         executeSum();
     }
-    else if (event.target.id == "btn-dec" || event.target.id == "btn-sign")
+    else if (event.target.id == "btn-dec" || event.target.id == "btn-sign" || event.target.id == "btn-backspace")
     {
         handleMiscOperators(event.target.id);
     }
@@ -188,5 +198,42 @@ document.addEventListener("click", function(event)
         handlePressedOperator(operatorEnum[event.target.id]);
     }
 
+    postPress();
+});
+
+document.addEventListener("keydown", (event) => 
+{
+    const keyPressed = parseInt(event.key);
+    if (keyPressed)
+    {
+        handlePressedNumber(keyPressed);
+    }
+    else
+    {
+        switch(event.key)
+        {
+            case "Backspace":
+                handleMiscOperators("btn-backspace");
+                break;
+            case "*":
+                handlePressedOperator("*");
+                break;
+            case "/":
+                handlePressedOperator("/");
+                break;
+            case "+":
+                handlePressedOperator("+");
+                break;
+            case "-":
+                handlePressedOperator("-");
+                break;
+            case "Enter":
+                executeSum();
+                break;
+            default:
+                console.log(event);
+                    break;
+        }
+    }
     postPress();
 });
