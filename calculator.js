@@ -6,15 +6,15 @@ let sum = {
     result: 0,
     hasSelectedOperator: false,
 }
+const dispOutput = document.querySelector("#disp-output");
 
 function handlePressedNumber(numPressed)
 {
     const parseNewNum = (currNum, numPressed) => {
         let newNum = currNum.toString() + numPressed
-        return parseInt(newNum);
+        return parseFloat(newNum);
     }
-    const dispOutput = document.querySelector("#disp-output");
-
+   
     if(!sum.hasSelectedOperator) 
     {
         // Handle first number
@@ -59,7 +59,7 @@ function executeSum()
             break;
     }
 
-    const dispOutput = document.querySelector("#disp-output");
+   
     dispOutput.textContent = sum.result;
     postSum();
 }
@@ -82,8 +82,29 @@ function clearSum()
     sum.result = 0;
     sum.hasSelectedOperator = false;
 
-    const dispOutput = document.querySelector("#disp-output");
     dispOutput.textContent = "CLR";
+}
+
+function changeInputSign()
+{
+    const flipSign = (input) => 
+    {
+        if (input > 0)
+            return parseFloat("-" + input.toString());
+        else
+            return Math.abs(input);
+    } 
+
+    if (!sum.hasSelectedOperator)
+    {
+        sum.firstNumber = flipSign(sum.firstNumber);
+        dispOutput.textContent = sum.firstNumber;
+    }
+    else
+    {
+        sum.secondNumber = flipSign(sum.secondNumber);
+        dispOutput.textContent = sum.secondNumber;
+    }
 }
 
 // Global click listener.
@@ -120,7 +141,11 @@ document.addEventListener("click", function(event)
     {
         executeSum();
     }
-    else if(event.target.id == "btn-clr")
+    else if (event.target.id == "btn-sign")
+    {
+        changeInputSign();
+    }
+    else if (event.target.id == "btn-clr")
     {
         clearSum();
     }
