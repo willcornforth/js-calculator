@@ -85,7 +85,7 @@ function clearSum()
     dispOutput.textContent = "CLR";
 }
 
-function changeInputSign()
+function handleMiscOperators(targetId)
 {
     const flipSign = (input) => 
     {
@@ -94,17 +94,47 @@ function changeInputSign()
         else
             return Math.abs(input);
     } 
+    const appendDecimal = (input) => 
+    {
+        if (input.toString().slice(-1) != '.')
+            return input.toString() + '.';
+        else
+            return input.toString().substring(0, input.toString().length - 1);
+    }
 
     if (!sum.hasSelectedOperator)
     {
-        sum.firstNumber = flipSign(sum.firstNumber);
+        if (targetId == "btn-sign")
+        {
+            sum.firstNumber = flipSign(sum.firstNumber);
+        }
+        else if (targetId == "btn-dec") 
+        {
+            sum.firstNumber = appendDecimal(sum.firstNumber);
+        }
         dispOutput.textContent = sum.firstNumber;
     }
     else
     {
-        sum.secondNumber = flipSign(sum.secondNumber);
+        if (targetId == "btn-sign")
+        {
+            sum.secondNumber = flipSign(sum.secondNumber);
+        }
+        else if (targetId == "btn-dec")
+        {
+            sum.secondNumber = appendDecimal(sum.secondNumber);
+        }
+
         dispOutput.textContent = sum.secondNumber;
     }
+}
+
+function postPress()
+{
+    const delta = dispOutput.textContent.length - 11;
+
+   if (delta > 0) 
+        dispOutput.textContent = dispOutput.textContent.substring(0, 11);
 }
 
 // Global click listener.
@@ -141,9 +171,9 @@ document.addEventListener("click", function(event)
     {
         executeSum();
     }
-    else if (event.target.id == "btn-sign")
+    else if (event.target.id == "btn-dec" || event.target.id == "btn-sign")
     {
-        changeInputSign();
+        handleMiscOperators(event.target.id);
     }
     else if (event.target.id == "btn-clr")
     {
@@ -157,4 +187,6 @@ document.addEventListener("click", function(event)
     {
         handlePressedOperator(operatorEnum[event.target.id]);
     }
+
+    postPress();
 });
