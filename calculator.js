@@ -106,7 +106,10 @@ function handleMiscOperators(targetId)
             return input.toString().substring(0, input.toString().length - 1);
     }
     const doBackspace = (input) => {
-        return parseFloat(input.toString().substring(0, input.toString().length - 1));
+        if(input.toString().length > 1)
+            return parseFloat(input.toString().substring(0, input.toString().length - 1));
+        else
+            return 0;
     }
 
     if (!sum.hasSelectedOperator)
@@ -145,10 +148,8 @@ function handleMiscOperators(targetId)
 
 function postPress()
 {
-    const delta = dispOutput.textContent.length - 11;
-
-   if (delta > 0) 
-        dispOutput.textContent = dispOutput.textContent.substring(0, 11);
+   if ((dispOutput.textContent.length - 9) > 0) 
+        dispOutput.textContent = dispOutput.textContent.substring(0, 9) + "...";
 }
 
 // Global click listener.
@@ -204,7 +205,7 @@ document.addEventListener("click", (event) =>
 document.addEventListener("keydown", (event) => 
 {
     const keyPressed = parseInt(event.key);
-    if (keyPressed)
+    if (Number.isFinite(keyPressed))
     {
         handlePressedNumber(keyPressed);
     }
