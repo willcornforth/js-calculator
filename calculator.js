@@ -123,11 +123,9 @@ document.addEventListener("click", function(event)
     else if (buttonEnum[event.target.id] != undefined) 
     {
         handlePressedNumber(buttonEnum[event.target.id]);
-        //console.log("you pressed a number");
     }
     else if (operatorEnum[event.target.id] != undefined) 
     {
         handlePressedOperator(operatorEnum[event.target.id]);
-        //console.log("you pressed an operator");
     }
 });
