@@ -150,6 +150,21 @@ function postPress()
 {
    if ((dispOutput.textContent.length - 9) > 0) 
         dispOutput.textContent = dispOutput.textContent.substring(0, 9) + "...";
+
+    const dispSum = document.querySelector("#disp-sum");
+    dispSum.textContent = '';
+
+    if(Number.isFinite(sum.firstNumber))
+        dispSum.textContent = sum.firstNumber;
+
+    if(sum.hasSelectedOperator)
+    {
+        dispSum.textContent += " " + sum.operator + " ";
+
+        if(Number.isFinite(sum.secondNumber))
+            dispSum.textContent += sum.secondNumber;
+    }
+
 }
 
 // Global click listener.
@@ -197,6 +212,9 @@ document.addEventListener("click", (event) =>
     else if (operatorEnum[event.target.id] != undefined) 
     {
         handlePressedOperator(operatorEnum[event.target.id]);
+
+        if(operatorEnum[event.target.id] == '%')
+            executeSum();
     }
 
     postPress();

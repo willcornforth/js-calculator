@@ -67,11 +67,22 @@ body {
 .calc-display {
     width: 100%;
     text-align: end;
-    padding: 25px 0;
-    flex-grow: 1;
 
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 25px;
+    padding-left: 0px;
+
+    flex-grow: 1;
     font-size: 52px;
     font-weight: bold;
+}
+
+.calc-sum {
+    width: 100%;
+    text-align: end;
+    padding: 0;
+    flex-grow: 1;
 }
 
 .col-op {
